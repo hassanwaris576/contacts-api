@@ -1,0 +1,33 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum ContactStatus {
+  ACTIVE
+  INACTIVE
+}
+
+model Contact {
+  id        String        @id @default(uuid())
+  firstName String
+  lastName  String
+  email     String        @unique
+  phone     String?
+  company   String?
+  jobTitle  String?
+  status    ContactStatus @default(ACTIVE)
+  notes     String?
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@index([firstName])
+  @@index([lastName])
+  @@index([company])
+  @@index([status])
+  @@index([createdAt])
+}
